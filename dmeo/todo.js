@@ -8,7 +8,9 @@ new Vue({
     el: '.main',
     data: {
         todo: '',
-        list: list
+        list: list,
+        editorTodos: '',
+        beforeTitle: ''
     },
     computed: {
         noCheckLength: function () {
@@ -28,8 +30,17 @@ new Vue({
             var index = this.list.indexOf(item)
             this.list.splice(index,1)
         },
-        edtorTodo(item){
-            
+        editorTodo(item){
+            this.beforeTitle = item.title
+            this.editorTodos = item
+        },
+        cancelTodo(item){
+            item.title = this.beforeTitle
+            this.beforeTitle = ''
+            this.editorTodos = ''
+        },
+        changedTodo(item){
+            this.editorTodos = ''
         }
     }
 })
