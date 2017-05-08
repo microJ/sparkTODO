@@ -11,17 +11,18 @@ var store = {
     {title: '你好啊',
     isChecked: false},
     {title: '我很好啊',
-    isChecked: true}
+    isChecked: true} //已完成
 ]*/
 var list = store.fetch('sparkTODO-list')
 
-new Vue({
+var vm = new Vue({
     el: '.main',
     data: {
         todo: '',
         list: list,
         editorTodos: '',
-        beforeTitle: ''
+        beforeTitle: '',
+        visibility: 'all'
     },
     watch: {
         list:{
@@ -36,6 +37,24 @@ new Vue({
             return this.list.filter(function(item){
                 return !item.isChecked
             }).length
+        },
+        selectList: function (){
+            var filter = {
+                all: function(list){
+                    return list
+                },
+                unfinished: function(list){
+                    return list.filter(function(item){
+                        return !item.isChecked
+                    })
+                },
+                finished: function(list){
+                    return list.filter(function(item){
+                        return item.isChecked
+                    })
+                }
+            }
+            return filter[this.visibility] ? filter[this.visibility](list) : list
         }
     },
     methods: {
@@ -63,3 +82,11 @@ new Vue({
         }
     }
 })
+
+function hashChange(){
+    var hash = window.location.hash.slice(1)
+    vm.visibility = hash
+    console.log(hash)
+}
+hashChange()
+window.addEventListener('hashchange',hashChange)
