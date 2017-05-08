@@ -86,7 +86,7 @@ var vm = new Vue({
 function hashChange(){
     var hash = window.location.hash.slice(1)
     vm.visibility = hash
-    console.log(hash)
+    // console.log(hash)
 }
 hashChange()
 window.addEventListener('hashchange',hashChange)
